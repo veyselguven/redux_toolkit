@@ -12,6 +12,7 @@ const moviesSlice = createSlice({
       state.splice(index, 1);
     },
     reset(state, action) {
+      console.log(action); //{type: 'movie/reset', payload: undefined}
       return [];
     },
   },
@@ -29,6 +30,12 @@ const songsSlice = createSlice({
       const index = state.indexOf(action.payload);
       state.splice(index, 1);
     },
+  },
+  extraReducers(builder) {
+    builder.addCase("movie/reset", (state, action) => {
+      //   state.push("newsong"); //if you do this,movie will be reset song will be add new song
+      return [];
+    });
   },
 });
 
