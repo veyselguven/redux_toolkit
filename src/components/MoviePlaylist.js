@@ -1,6 +1,7 @@
 import { createRandomMovie } from "../data";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie, removeMovie } from "../store";
+import SingleMovie from "./SingleMovie";
 // import { store } from "../store/index";
 
 function MoviePlaylist() {
@@ -20,17 +21,15 @@ function MoviePlaylist() {
     dispatch(removeMovie(movie));
   };
 
-  const renderedMovies = moviePlaylist.map((movie) => {
+  const renderedMovies = moviePlaylist.map((movie, index) => {
     return (
-      <li key={movie}>
-        {movie}
-        <button
-          onClick={() => handleMovieRemove(movie)}
-          className="button is-danger"
-        >
-          X
-        </button>
-      </li>
+      <div key={index}>
+        <SingleMovie
+          movie={movie}
+          index={index}
+          handleMovieRemove={handleMovieRemove}
+        />
+      </div>
     );
   });
 

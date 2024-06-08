@@ -1,8 +1,11 @@
 import { createRandomSong } from "../data";
 import { useDispatch, useSelector } from "react-redux";
-import { addSong, removeSong } from "../store";
+import { addSong, removeSong, editSong } from "../store";
+import { useState } from "react";
+import EditSongList from "./EditSongList";
 
 function SongPlaylist() {
+  const [showEdit, setShowEdit] = useState(false);
   const dispatch = useDispatch();
 
   const songPlaylist = useSelector((state) => {
@@ -19,10 +22,29 @@ function SongPlaylist() {
     dispatch(removeSong(song));
   };
 
-  const renderedSongs = songPlaylist.map((song) => {
+  const handleSongEdit = (index, song) => {
+    setShowEdit(true);
+    dispatch(editSong({ index, song }));
+  };
+
+  const renderedSongs = songPlaylist.map((song, index) => {
     return (
       <li key={song}>
         {song}
+        <button
+          onClick={() => handleSongEdit(index, song)}
+          className="button is-warning"
+        >
+          Edit
+        </button>
+        {showEdit ? (
+          <EditSongList
+            handleSongEdit={handleSongEdit}
+            song={song}
+            index={index}
+            setShowEdit={setShowEdit}
+          />
+        ) : null}
         <button
           onClick={() => handleSongRemove(song)}
           className="button is-danger"
